@@ -1,3 +1,8 @@
+<form method="get" action="quizes">
+	<p>Escriba cadena a buscar
+	<input type="text" name="search" value="escriba aquí" />
+	<input type="submit" value="Enviar"></p>
+</form>
 <table>
 <% var i; for(i=0; i<quizes.length;i++){ %>
 	<tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
