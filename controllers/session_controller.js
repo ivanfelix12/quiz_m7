@@ -7,6 +7,24 @@ exports.loginRequired = function(req,res,next){
 	}
 };
 
+//MiddleWare de autologout pasado un tiempo
+exports.check = function(req,res,next){
+	var now = new Date();
+	var stamp = req.session.time ? new Date(req.session.time) : new Date();
+	var maxTime = 120000; //Dos minutos = 120000 milisegundos
+
+	if(req.session.user && now.getTime() > stamp.getTime() + maxTime){
+	 	var cont = require('./session_controller');
+	 	cont.destroy(req,res);
+	 	req.session.errors = new Error("Sesión caducada");
+	 	var errors = req.session.errors;
+	 	req.session.errors = {};
+	 } else {
+	 	req.session.time = new Date();
+	 	next();
+	}
+};
+
 //GET /login -- Fromulario de login
 exports.new = function(req,res){
 	var errors = req.session.errors || {};
